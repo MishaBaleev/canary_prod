@@ -1,0 +1,100 @@
+@import "../../mixin.scss";
+
+.map_input{
+    box-sizing: border-box;
+    @include flexContainerCenterWrap();
+    align-content: space-between;
+    padding-bottom: 20px;
+    .title{
+        width: 100%;
+        height: 60px;
+        background-color: #4c4b4b;
+        border-radius: 6px 6px 0 0;
+        @include flexContainerCenterWrap();
+        p{
+            @include text(25, 10);
+            margin: 0;
+        }
+    }
+    .input_coord{
+        width: 90%;
+        @include flexContainerCenterWrap();
+        justify-content: space-between;
+        p{
+            @include text(22, 10);
+            margin: 0;
+        }   
+        input{
+            padding: 0 5px;
+            width: 60%;
+            border: none;
+            border-radius: 3px;
+            height: 40px;
+            @include text(22, 10);
+            text-align: center;
+            color: #4c4b4b;
+            &:focus{outline: none;};
+            &::-webkit-inner-spin-button {
+                opacity: 1;
+            };
+        }
+    }
+    .azimuth{
+        width: 90%;
+        @include flexContainerCenterWrap();
+        justify-content: space-between;
+        p{
+            @include text(22, 10);
+            margin: 0
+        }
+        input[type=number]{
+            width: 25%;
+            height: 40px;
+            padding: 0 5px;
+            border: none;
+            border-radius: 3px;
+            @include text(22, 10);
+            text-align: center;
+            color: #4c4b4b;
+            &:focus{outline: none;};
+            &::-webkit-inner-spin-button {
+                opacity: 1;
+            };
+        }
+        input[type=range]{
+            width: 40%;
+            background-color: transparent;
+            -webkit-appearance: none;
+            &:hover{
+                cursor: pointer;
+            }
+            &::-webkit-slider-runnable-track{
+                -webkit-appearance: none;
+                overflow: hidden;
+                height: 40px;
+                border-radius: 3px;
+                background-color: gray;
+            }
+            &::-webkit-slider-thumb{
+                -webkit-appearance: none;
+                background-color: whitesmoke;
+                width: 10px;
+                height: 40px;
+                box-shadow: -560px 0 0 550px #02d402;;
+            }
+        }
+    }
+    .map_button{
+        width: 90%;
+        height: 40px;
+        border: none;
+        border-radius: 6px;
+        background-color: #4c4b4b;
+        @include text(22, 10);
+        transition-duration: .1s;
+        &:hover{
+            cursor: pointer;
+            background-color: #808080;
+        }
+    }
+}

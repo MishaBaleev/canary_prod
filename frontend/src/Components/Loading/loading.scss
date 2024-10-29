@@ -1,0 +1,57 @@
+.loading{
+    position: absolute;
+    top: 0;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    background-color: #676767;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p{
+        margin: 0;
+        margin-bottom: 200px;
+        font-size: 40px;
+        color: whitesmoke;
+        font-family: "JetBrains Mono";
+    }
+    .div{
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border: 5px solid #02d402;
+        border-radius: 15px;
+        &.div_1{
+            border-top: none;
+            border-bottom: none;
+            animation: rotateRight 2s infinite;
+        }
+        &.div_2{
+            border-left: none;
+            border-right: none;
+            animation: rotateLeft 2s infinite;
+        }
+        @keyframes rotateRight{
+            0%{
+                rotate: 0;
+            }
+            50%{
+                rotate: 180deg;
+            }
+            100%{
+                rotate: 360deg;
+            }
+        }
+        @keyframes rotateLeft{
+            0%{
+                rotate: 0;
+            }
+            50%{
+                rotate: -180deg;
+            }
+            100%{
+                rotate: -360deg;
+            }
+        }
+    }
+}

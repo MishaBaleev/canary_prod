@@ -1,0 +1,106 @@
+@import "../../../mixin.scss";
+
+.log_data{
+    width: 25%;
+    height: calc(100% - 20px);
+    background-color: #676767;
+    border-radius: 6px 0 0 0;
+    .title{
+        width: 100%;
+        height: 60px;
+        background-color: #4c4b4b;
+        border-radius: 6px 6px 0 0;
+        box-sizing: border-box;
+        border-bottom: 1px solid #676767;
+        @include flexContainerCenterWrap();
+        p{
+            @include bText(25, 10);
+            margin: 0;
+        }
+    }
+    .navigation{
+        width: 100%;
+        @include flexContainerCenterWrap();
+        justify-content: space-around;
+        button{
+            width: 30%;
+            height: 60px;
+            background-color: #4c4b4b;
+            border: none;
+            border-radius: 0 0 6px 6px;
+            transition-duration: .1s;
+            box-sizing: border-box;
+            &.active{
+                border-bottom: 1px solid #02d402;
+            }
+            &:hover{
+                cursor: pointer;
+                background-color: grey;
+            }
+            img{
+                width: 30px;
+            }
+            .name{
+                p{
+                    @include text(15, 5);
+                    margin: 0
+                }
+            }
+        }
+    }
+    .block{
+        width: 100%;
+        height: calc(100% - 160px);
+        margin-top: 20px;
+        padding-bottom: 20px;
+        overflow-y: scroll;
+        @include flexContainerCenterWrap();
+        align-content: flex-start;
+        align-items: flex-start;
+        &::-webkit-scrollbar{
+            background-color: transparent;
+            width: 7px;
+        }
+        &::-webkit-scrollbar-thumb{
+            background-color: #B9CAEA;
+            border-radius: 3.5px;
+        }
+        .data_block{
+            margin-top: 20px;
+            width: 90%;
+            background-color: grey;
+            border-radius: 6px;
+            padding: 0 0 10px 0;
+            &:first-child{margin: 0};
+            .title_block{
+                width: 100%;
+                height: 40px;
+                border-bottom: 1px solid whitesmoke;
+                @include flexContainerCenterWrap();
+                p{
+                    @include text(22, 10);
+                    margin: 0;
+                }
+            }   
+            .item_block{
+                width: 100%;    
+                margin-top: 10px;
+                @include flexContainerCenterWrap();
+                p{
+                    width: 100%;
+                    text-align: center;
+                    @include text(18, 6);
+                    margin: 0;
+                }
+                &.big{
+                    width: calc(100% - 20px);
+                    padding: 0 10px;
+                    p{
+                        text-align: justify;
+                        @include text(22, 10);
+                    }
+                }
+            }
+        }
+    }
+}

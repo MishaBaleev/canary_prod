@@ -1,0 +1,24 @@
+@import "../../../mixin.scss";
+
+.log_graph{
+    width: 100%;
+    height: 70%;
+    @include flexContainerCenterWrap();
+    .card{
+        @include flexContainerCenterWrap();
+        justify-content: center;
+        height: 48%;
+        width: 50%;
+        .title{
+            width: 100%;
+            @include text(25, 10);
+            text-align: center;
+            margin: 0;
+        }
+        .graph_card{
+            @include flexContainerCenterWrap();
+            height: 80%;
+            width: 100%;
+        }
+    }
+}

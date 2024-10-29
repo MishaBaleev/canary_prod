@@ -1,0 +1,184 @@
+@import "../../mixin.scss";
+
+.controls{
+    .title{
+        width: 100%;
+        height: 60px;
+        background-color: #4c4b4b;
+        border-radius: 6px 6px 0 0;
+        border-bottom: 2px solid grey;
+        box-sizing: border-box;
+        @include flexContainerCenterWrap();
+        p{
+            @include text(25, 10);
+            margin: 0;
+        }
+    }
+    .interface{
+        border-radius: 6px 6px 0 0;
+        width: 100%;
+        height: 60px;
+        @include flexContainerCenterWrap();
+        justify-content: space-around;
+        background-color: #4c4b4b;
+        .rect_button{
+            height: 45px;
+            width: 80px;
+            box-sizing: border-box;
+            padding: 0 4px;
+            border-radius: 10px;
+            background-color: transparent;
+            border: 2px solid whitesmoke;
+            @include flexContainerCenterWrap();
+            &::after{
+                display: block;
+                content: "";
+                width: 32px;
+                height: 32px;
+                background-color: whitesmoke;
+                border-radius: 6px;
+            }
+            &.active{
+                justify-content: right;
+                border-color: #02d402;
+                &::after{background-color: #02d402;}
+            }
+            &.unactive{
+                justify-content: left;
+                border-color: red;
+                &::after{background-color: red;}
+            }
+            &:hover{cursor: pointer;}
+        }
+        select{
+            width: 50%;
+            height: 45px;
+            border: none;
+            border-radius: 3px;
+            padding: 0 5px;
+            @include text(20, 10);
+            color: #4c4b4b;
+            text-align: center;
+            &:focus{outline: none;}
+            &:hover{cursor: pointer;}
+        }
+        .update{
+            width: 45px;
+            height: 45px;
+            @include flexContainerCenterWrap();
+            background-color: transparent;
+            border: none;
+            img{
+                width: auto;
+                height: 100%;
+            }
+            &:hover{cursor: pointer;}
+        }
+    }
+    .main_section{
+        width: 100%;
+        height: calc(100% - 120px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        .record{
+            @include flexContainerCenterWrap();
+            justify-content: space-around;
+            .circle_button{
+                width: 70px;
+                height: 40px;
+                padding: 0 5px;
+                border-radius: 20px;
+                border: 2px solid whitesmoke;
+                box-sizing: border-box;
+                background-color: transparent;
+                @include flexContainerCenterWrap();
+                &::after{
+                    display: block;
+                    content: "";
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 14px;
+                    background-color: whitesmoke;
+                }
+                &.active{
+                    justify-content: right;
+                    border-color: #02d402;
+                    &::after{background-color: #02d402;}
+                }
+                &.unactive{
+                    justify-content: left;
+                    border-color: red;
+                    &::after{background-color: red;}
+                }
+                &:hover{cursor: pointer;}
+            }
+            p{
+                @include text(22, 10);
+                margin: 0;
+            }
+            input{
+                width: 35%;
+                height: 100%;
+                padding: 0 5px;
+                border: none;
+                border-radius: 3px;
+                text-align: center;
+                @include text(20, 10);
+                color: #4c4b4b;
+                &:focus{outline: none}
+            }
+        }
+        .comments_title{
+            @include flexContainerCenterWrap();
+            justify-content: space-around;
+            input{
+                padding: 0;
+                @include text(22, 10);
+                color: #4c4b4b;
+                height: 40px;
+                text-align: center;
+                border: none;
+                &:focus{outline: none;}
+            }
+            .add{
+                height: 40px;
+                padding: 0;
+                border: none;
+                background-color: transparent;
+                img{
+                    height: 100%;
+                }
+                &:hover{cursor: pointer;}
+            }
+        }
+        .comments_list{
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: stretch;
+            justify-content: space-around;
+            li{
+                list-style-type: none;
+                width: 45%;
+                padding: 10px 0;
+                @include flexContainerCenterWrap();
+                background-color: #4c4b4b;
+                margin-top: 30px;
+                border-radius: 6px;
+                transition-duration: .1s;
+                &:nth-child(1), &:nth-child(2){margin: 0}
+                p{
+                    @include text(22, 10);
+                    margin: 0;
+                }
+                &:hover{
+                    cursor: pointer;
+                    background-color: #808080;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,37 @@
+$maxWidth: 1920;
+$minWidth: 1200;
+@mixin adaptiv-font($pcSize, $mobSize) {
+	$addSize: $pcSize - $mobSize;
+	$addMobSize: $addSize + $addSize * 0.7;
+	@media (max-width: 767px) {
+		font-size: calc(#{$mobSize + px} + #{$addMobSize} * ((100vw - 1200px) / #{$maxWidth}));
+	}
+	@media (min-width: 767px) {
+		font-size: calc(#{$mobSize + px} + #{$addSize} * (100vw / #{$maxWidth}));
+	}
+}
+
+@mixin bText($pcSize, $mobSize){
+	font-family: Tahoma, Geneva, sans-serif;
+    @include adaptiv-font($pcSize, $mobSize);
+	font-weight: 700;
+	color: whitesmoke;
+	text-align: left;
+}
+
+@mixin text($pcSize, $mobSize){
+	@include adaptiv-font($pcSize, $mobSize);
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: normal;
+    letter-spacing: 0em;
+	font-weight: 100;
+    color: whitesmoke;
+}
+
+@mixin flexContainerCenterWrap(){
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+}
