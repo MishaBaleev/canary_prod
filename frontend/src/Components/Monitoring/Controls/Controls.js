@@ -7,22 +7,28 @@ import { connect } from "react-redux";
 import { updateModal } from "../../../AppSlice";
 
 const Controls = (props) => {
+    //state
     const [file_name, setFileName] = useState(new Date().toLocaleString())
     const comments = ["Аномалия", "Далеко", "Близко", "Реагирование"]
     const [comment_value, setComment] = useState("")
     const [ints, setInts] = useState([])
     const [cur_int, setCurInt] = useState("")
+    const [int_active, setIntActive] = useState("unactive")
+    const [timer_value, setTimer] = useState("000")
+    const [timer_obj, setTimerObj] = useState(null)
+    const [rec_active, setRecActive] = useState("unactive")
+    const [baudrate, setBaudrate] = useState(localStorage.getItem("baudrate")!=null?Number(localStorage.getItem("baudrate")):"115200")
+
+    //handlers
     const getInts = () => {
         let ints = ["Не определен"]
-        axios.get("http://127.0.0.1:8000/getInts").then(response => {
+        axios.get("http://127.0.0.1:8001/getInts").then(response => {
             response.data.ints.forEach(item => {
                 ints.push(item)
             })
             setInts(ints)
         })
     }
-
-    const [int_active, setIntActive] = useState("unactive")
     const changeIntActive = () => {
         if (int_active === "active"){
             if (rec_active === "active"){
@@ -38,7 +44,8 @@ const Controls = (props) => {
                 let data = {
                     command: "start",
                     start_config: {
-                        int: cur_int
+                        int: cur_int,
+                        baudrate: baudrate
                     }
                 }
                 props.sendCommand(data, "sensor")
@@ -46,9 +53,6 @@ const Controls = (props) => {
             }
         }
     }
-
-    const [timer_value, setTimer] = useState("000")
-    const [timer_obj, setTimerObj] = useState(null)
     const incrementTimer = () => {
         setTimer(timer_value => {
             let cur_timer = parseInt(timer_value)
@@ -65,7 +69,6 @@ const Controls = (props) => {
         setTimerObj(setTimeout(incrementTimer, 1000))
     }
 
-    const [rec_active, setRecActive] = useState("unactive")
     const changeRecActive = () => {
         if (rec_active === "active"){
             props.sendCommand({command: "act_rec", value: false, file_name: file_name}, "sensor")
@@ -106,10 +109,14 @@ const Controls = (props) => {
         </div>
         <div className="interface">
             <button className={"rect_button "+int_active} onClick={changeIntActive}/>
-            <select onChange={(e) => {setCurInt(ints[e.target.value])}}>
+            <select onChange={(e) => {setCurInt(ints[e.target.value])}} className="int">
                 {ints.map((item, index) => {
                     return <option value={index} key={index}>{item}</option>
                 })}
+            </select>
+            <select onChange={(e) => {setBaudrate(e.target.value); localStorage.setItem("baudrate", e.target.value)}} value={baudrate} className="baudrate">
+                <option value="115200">115200</option>
+                <option value="230400">230400</option>
             </select>
             <button className="update" onClick={getInts}><img src={update} alt="update"/></button>
         </div>

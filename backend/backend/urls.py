@@ -9,5 +9,6 @@ urlpatterns = [
     path("checkBack", checkBack.as_view()),
     path("getInts", getInts.as_view()),
     path("getLogData", getLogData.as_view()),
-    path("getCoordsFromPlace", getCoordsFromPlace.as_view())
+    path("getCoordsFromPlace", getCoordsFromPlace.as_view()),
+    path("saveAnalize", saveAnalize.as_view())
 ]

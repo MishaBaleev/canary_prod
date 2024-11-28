@@ -55,7 +55,6 @@ class MainConsumer(WebsocketConsumer):
                         "zone_state": send_data["zone_state"],
                         "note": self.base_config["note"]
                     }
-                    print(rec_data)
                     self.base_config["note"] = []
                     self.base_config["rec_arr"].append(rec_data)
                 self.send(json.dumps(send_data))
@@ -72,7 +71,8 @@ class MainConsumer(WebsocketConsumer):
                     try: 
                         print(data["start_config"])
                         interface = data["start_config"]["int"]
-                        self.serial_reader = MainReader(interface)
+                        baudrate = data["start_config"]["baudrate"]
+                        self.serial_reader = MainReader(interface, baudrate)
                         self.serial_reader.createCon()
                         self.thread = Thread(target=self.stableCon, args={})
                         self.thread.daemon = True 

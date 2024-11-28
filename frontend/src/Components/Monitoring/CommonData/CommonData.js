@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import "./ComonData.scss";
 import RangeCard from "./RangeCard";
 

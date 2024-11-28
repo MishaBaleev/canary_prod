@@ -10,10 +10,10 @@ const LogReader = (props) => {
     const [log_data, setLogData] = useState(null)
 
     const getData = (e) => {
-        let data = new FormData
+        let data = new FormData()
         data.append("file", new Blob([e.target.files[0]]))
-        axios.post("http://127.0.0.1:8000/getLogData", data).then(response => {
-            if (response.data.result == false){
+        axios.post("http://127.0.0.1:8001/getLogData", data).then(response => {
+            if (response.data.result === false){
                 props.updateModal({title: "Ошибка открытия лога", message: "При открытии лога произошла ошибка"})
             }else{
                 setLogData({

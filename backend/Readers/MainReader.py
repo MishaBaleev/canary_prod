@@ -2,8 +2,9 @@ import serial
 import ujson as json
 
 class MainReader():
-    def __init__(self, int):
+    def __init__(self, int, baudrate):
         self.int = int 
+        self.baudrate = baudrate
         self.session = None
         self.counter = 0
         self.frame = {
@@ -13,7 +14,7 @@ class MainReader():
         }
 
     def createCon(self):
-        self.session = serial.Serial(self.int, baudrate=115200)
+        self.session = serial.Serial(self.int, baudrate=self.baudrate)
 
     def parseData(self, data:str) -> None:
         match data["type"]:
@@ -50,18 +51,73 @@ class MainReader():
                     res_arr[base.index(value[0])] = int(value[1])
                 return res_arr
 
+    def parseDataCommonX3(self, data:str) -> None:
+        try: #all
+            json_data = json.loads(data)
+            try: #2400
+                channels_shift = {
+                    "Channel_1": 0,
+                    "Channel_2": 5,
+                    "Channel_3": 10,
+                    "Channel_4": 15,
+                    "Channel_5": 20,
+                    "Channel_6": 25,
+                    "Channel_7": 30,
+                    "Channel_8": 35,
+                    "Channel_9": 40,
+                    "Channel_10": 45,
+                    "Channel_11": 50,
+                    "Channel_12": 55,
+                    "Channel_13": 60,
+                }
+                res_arr = [0 for _ in range(82)]
+                for key in json_data.keys():
+                    for index, value in enumerate(json_data[key]):
+                        target_index = index + channels_shift[key]
+                        res_arr[target_index] = int(value) 
+                return {"type": 2400, "res": res_arr}
+            except:
+                print("error 2400")
+                try: #915
+                    res_arr = [0 for _ in range(100)] 
+                    for key in json_data.keys():
+                        res_arr[int(key)-820] = int(json_data[key][0])
+                    return {"type": 915, "res": res_arr}
+                except:
+                    print("error 915")
+                    return None 
+        except: 
+            print("error all")
+            return None
+
+
     def getData(self):
         raw_data = self.session.readline()
-        try:
+        # print(raw_data)
+        try: #common X2
+            result = self.parseDataCommonX3(raw_data.decode().replace("'", '"'))
+            if result == None: return None 
+            else:
+                if result["type"] == 2400:
+                    return {
+                        "type": "type_2400",
+                        "arr": result["res"]
+                    } 
+                elif result["type"] == 915:
+                    return {
+                        "type": "type_915",
+                        "arr": result["res"]
+                    }
+        except: #multi X3
             line_data = json.loads(raw_data.decode().replace("'", '"'))
             if (line_data["type"] == "1"):
-                print(line_data, "\n")
+                # print(line_data, "\n")
                 return {
                     "type": "type_915",
                     "arr": self.parseData(line_data)
                 } 
             elif (line_data["type"] == "2"):
-                print(line_data, "\n")
+                # print(line_data, "\n")
                 return {
                     "type": "type_2400",
                     "arr": self.parseData(line_data)
@@ -72,6 +128,3 @@ class MainReader():
                     "type": "type_5800",
                     "arr": self.parseData(line_data)
                 } 
-        except ValueError as err:
-            print(err)
-            return None

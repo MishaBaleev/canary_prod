@@ -43,7 +43,7 @@ def isIn(target:int, range:list) -> bool:
 # 4 - wi-fi upload
 def autoAnalize(freqArr:list) -> int:
         hillArr = []
-        for critLevel in [5, 10, 20]:
+        for critLevel in [10, 15, 20]:
             hills = getHills(freqArr, critLevel)
             for h in hills:
                 hillArr.append({
@@ -53,13 +53,12 @@ def autoAnalize(freqArr:list) -> int:
         targetHills = []
         for h1 in hillArr:
             counter = 0
-            hillArr.pop(0)
             for h2 in hillArr:
                 if h1["critLevel"] != h2["critLevel"]: 
                     centerH1 = (h1["hill"][1] + h1["hill"][0])/2
                     centerH2 = (h2["hill"][1] + h2["hill"][0])/2
                     if (centerH2 - 3) <= centerH1 <= (centerH2 + 3): counter += 1
-            if counter == 2:
+            if counter >= 2:
                 targetHills.append(h1["hill"])
 
         for th in targetHills:

@@ -9,7 +9,7 @@ const Suppressor = (props) => {
     const [ints, setInts] = useState([])
     const getInts = () => {
         let ints = ["Неопределен"]
-        axios.get("http://127.0.0.1:8000/getInts").then(response => {
+        axios.get("http://127.0.0.1:8001/getInts").then(response => {
             response.data.ints.forEach(item => {
                 ints.push(item)
             })
@@ -129,6 +129,7 @@ const Suppressor = (props) => {
                     <option value="24">2.4 ГГц</option>
                     <option value="915">915 МГц</option>
                     <option value="58">5.8 ГГц</option>
+                    <option value="15">1.5 ГГц</option>
                 </select>
             </div>
             <div className="item space-between">

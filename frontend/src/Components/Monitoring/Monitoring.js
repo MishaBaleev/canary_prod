@@ -13,8 +13,16 @@ import { updateModal } from "../../AppSlice";
 
 const Monitoring = (props) => {
 
+    const getFrameArr = (size) => {
+        let result_arr = []
+        for (let i=0; i<= size; i++){
+            result_arr.push(Math.floor(Math.random()*50))
+        }
+        return result_arr
+    }
     const [frame, setFrame] = useState({
         frame: {arr_2400: Array(82).fill(0), arr_915: Array(51).fill(0), arr_5800: Array(39).fill(0)},
+        // frame: {arr_2400: getFrameArr(82), arr_915: getFrameArr(51), arr_5800: getFrameArr(39)},
         time: 0,
         zone_state: {zone_2400: 0, zone_915: 0, zone_5800: 0}
     })
@@ -45,7 +53,7 @@ const Monitoring = (props) => {
     const [sensor_socket, setSensorSocket] = useState(null)
     const [suppressor_socket, setSuppressorSocket] = useState(null)
     
-    const [map_manager, setMapManager] = useState(new MapManager())
+    const [map_manager, _] = useState(new MapManager())
     const [position, setPosition] = useState({
         lon: null,
         lat: null,
@@ -65,7 +73,7 @@ const Monitoring = (props) => {
     const getCoordsFromPlace = () => {
         let data = new FormData()
         data.append("place", place_value)
-        axios.post("http://localhost:8000/getCoordsFromPlace", data).then(result => {
+        axios.post("http://localhost:8001/getCoordsFromPlace", data).then(result => {
             if (result.data.result === true){
                 map_manager.map.flyTo({center: result.data.data})
             }else{
@@ -79,16 +87,23 @@ const Monitoring = (props) => {
             sensor_socket.send(JSON.stringify(data))
         }else if (type === "suppressor"){
             suppressor_socket.send(JSON.stringify(data))
+            suppressor_socket.onmessage = (e) => {
+                console.log([e.data])
+                let message_new = ""
+                if (e.data === "on\r\n"){message_new = "Устройство реагирования активировано"}
+                else if (e.data === "off\r\n"){message_new = "Устройство реагирования деактивировано"}
+                props.updateModal({title: "Уведомление", message: message_new})
+            }
         }
     }
 
     useEffect(() => {
         map_manager.init()
-        let sensor_socket_ = new WebSocket("ws://localhost:8000/main")
+        let sensor_socket_ = new WebSocket("ws://localhost:8001/main")
         sensor_socket_.onmessage = sensor_socketOnMessage
         setSensorSocket(sensor_socket_)
 
-        let suppressor_consumer_ = new WebSocket("ws://localhost:8000/suppressor")
+        let suppressor_consumer_ = new WebSocket("ws://localhost:8001/suppressor")
         suppressor_consumer_.onmessage = (e) => {console.log(e)}
         setSuppressorSocket(suppressor_consumer_)
     }, [])

@@ -19,27 +19,38 @@ const CommonState = (props) => {
         const zone_2400 = props.frame.zone_state.zone_2400
         const zone_915 = props.frame.zone_state.zone_915
         const zone_5800 = props.frame.zone_state.zone_5800
-        const zone_result = `${zone_2400},${zone_915},${zone_5800}`
         let new_decision = ""
-        switch (zone_result){
-            case "0,0,0":
-                new_decision = "Угроз не обнаружено"
-                break
-            case "1,0,0":
-                new_decision = "Обнаружен коммерческий БПЛА, управляемый в ручном режиме при помощи комплектного пульта"
-                break
-            case "2,0,0":
-                new_decision = "Обнаружен коммерческий БПЛА, управляемый мобильным устройством"
-                break 
-            case "3,0,0":
-                new_decision = "Обнаружен Wi-Fi-speedtest в режиме download"
-                break 
-            case "4,0,0":
-                new_decision = "Обнаружен Wi-Fi-speedtest в режиме upload"
-                break
+        if (zone_915 === 1 && (zone_2400 === 1 || zone_2400 === 2)){
+            new_decision = "FPV БПЛА"
+            setDecision(new_decision)
+            return
         }
-        setDecision(new_decision)
-        
+        if (zone_915 === 1 && zone_5800 === 1){
+            new_decision = "FPV БПЛА"
+            setDecision(new_decision)
+            return
+        }
+        if ((zone_2400 === 1 || zone_2400 === 2) && zone_5800 === 1){
+            new_decision = "FPV БПЛА"
+            setDecision(new_decision)
+            return
+        }
+        if ((zone_2400 === 1 || zone_2400 === 2)){
+            new_decision = "Коммерческий БПЛА"
+            setDecision(new_decision)
+            return
+        }
+        if (zone_5800 === 1){
+            new_decision = "Коммерческий БПЛА"
+            setDecision(new_decision)
+            return
+        }
+        if (zone_915 === 1){
+            new_decision = "Самособранный БПЛА"
+            setDecision(new_decision)
+            return
+        }
+        setDecision("Аномалии не обнаружены")
     }, [props.frame])
 
     return <div className="common_state plate">

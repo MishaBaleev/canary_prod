@@ -1,6 +1,7 @@
 from channels.generic.websocket import WebsocketConsumer
 import ujson as json
 import serial 
+import time
 
 class SuppressorConsumer(WebsocketConsumer):
     def __init__(self, *args, **kwargs):
@@ -30,6 +31,12 @@ class SuppressorConsumer(WebsocketConsumer):
                 print(byte_command)
                 self.session.write(byte_command)
                 print("---command send---")
+                time.sleep(0.5)
+                request = self.session.readline().decode()
+                self.send(request)
+                time.sleep(self.time/1000)
+                request = self.session.readline().decode()
+                self.send(request)
             case "stop":
                 pass
 

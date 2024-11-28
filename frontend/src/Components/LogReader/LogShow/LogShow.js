@@ -2,7 +2,7 @@ import "./LogShow.scss";
 import LogNav from "./LogNav/LogNav";
 import LogGraph from "./LogGraph/LogGraph";
 import LogData from "./LogData/LogData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const LogShow = (props) => {
     const [cur_frame, setCurFrame] = useState(props.data.data[0])
@@ -32,6 +32,17 @@ const LogShow = (props) => {
             })
         }
         setCurNotes(cur_notes_new)
+
+        let cur_frame_arr_new = {
+            type_2400: [],
+            type_915: [],
+            type_5800: []
+        }
+        for (let i=0; i<=id; i++){
+            let type = JSON.parse(props.data.data[i].frame).type
+            cur_frame_arr_new[type].push(props.data.data[i])
+        }
+        setCurFrameArr(cur_frame_arr_new)
     }
 
     const [cur_arrs, setCurArrs] = useState({
@@ -45,6 +56,12 @@ const LogShow = (props) => {
         zone_5800: 0
     })
     const [cur_notes, setCurNotes] = useState([])
+
+    const [cur_frame_arr, setCurFrameArr] = useState({
+        type_2400: [],
+        type_915: [],
+        type_5800: []
+    })
 
     return <div className="log_show">
         <div className="section_1">
@@ -64,6 +81,7 @@ const LogShow = (props) => {
             cur_arrs={cur_arrs}
             cur_zones={cur_zones}
             cur_notes={cur_notes}
+            cur_frame_arr={cur_frame_arr}
         />
     </div>
 }

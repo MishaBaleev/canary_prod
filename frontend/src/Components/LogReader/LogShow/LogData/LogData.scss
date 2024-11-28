@@ -62,7 +62,7 @@
             width: 7px;
         }
         &::-webkit-scrollbar-thumb{
-            background-color: #B9CAEA;
+            background-color: darkgray;
             border-radius: 3.5px;
         }
         .data_block{
@@ -75,6 +75,7 @@
             .title_block{
                 width: 100%;
                 height: 40px;
+                text-align: center;
                 border-bottom: 1px solid whitesmoke;
                 @include flexContainerCenterWrap();
                 p{
@@ -101,6 +102,34 @@
                     }
                 }
             }
+            .graph_analize{
+                padding: 0px 10px;
+                @include flexContainerCenterWrap();
+                .graph_analize_title{
+                    margin: 10px 0 0 0;
+                    text-align: center;
+                    @include text(20, 10);
+                }
+            }
+        }
+    }
+    .save_analize{
+        margin-top: 20px;
+        height: 40px; 
+        width: 90%;
+        border: none;
+        border-radius: 6px;
+        background-color: #4c4b4b;
+        @include flexContainerCenterWrap();
+        transition-duration: .1s;
+        &:hover{
+            background-color: #2f2f2f;
+            cursor: pointer;
+        }
+        p{
+            @include bText(25, 10);
+            text-align: center;
+            margin: 0;
         }
     }
 }

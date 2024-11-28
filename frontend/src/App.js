@@ -9,7 +9,7 @@ import { updateModal } from "./AppSlice";
 import Loading from "./Components/Loading/Loading";
 import axios from "axios";
 import { Chart } from "chart.js/auto";
-import annotationPlugin from "chartjs-plugin-annotation";
+import annotationPlugin from 'chartjs-plugin-annotation';
 
 const App = (props) => {
   const [cur_cmp, setCmp] = useState(localStorage.getItem("cur_cmp")!=null?Number(localStorage.getItem("cur_cmp")):0)
@@ -22,12 +22,11 @@ const App = (props) => {
 
   const changeCMP = (index) => {
     setCmp(index)
-    localStorage
-    .setItem("cur_cmp", index)
+    localStorage.setItem("cur_cmp", index)
   }
 
   const checkBackend = () => {
-    axios.get("http://127.0.0.1:8000/checkBack").then(response => {
+    axios.get("http://127.0.0.1:8001/checkBack").then(response => {
       setIntReady(true)
     }).catch(() => {
       setTimeout(() => {checkBackend()}, 1000)
@@ -35,7 +34,7 @@ const App = (props) => {
   }
 
   useEffect(() => {
-    // Chart.register(annotationPlugin)
+    Chart.register(annotationPlugin)
     checkBackend()
   }, [])
 

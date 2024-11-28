@@ -12,6 +12,6 @@ class MainDetector():
             case "type_2400":
                 return detect_2400(frame["arr"]) #available 0, 1, 2, 3, 4
             case "type_915":
-                return detect_915(frame["arr"]) #available 1, 2
+                return detect_915(frame["arr"]) #available 0, 1
             case "type_5800":
-                return detect_5800(frame["arr"]) #don't work
+                return detect_5800(frame["arr"])  #available 0, 1

@@ -1,9 +1,11 @@
 import "./LogData.scss";
 import CommonData from "./CommonData";
 import StateData from "./StateData";
+import LogAnalize from "./LogAnalize";
 import { useState } from "react";
 import common from "./img/common.png";
-import state from "./img/state.png";
+// import state from "./img/state.png";
+import logAnalize from "./img/logAnalize.png";
 
 const LogData = (props) => {
     const [cur_cmp, setCMP] = useState(0)
@@ -15,7 +17,8 @@ const LogData = (props) => {
 
     const cmps = [
         {img: common, cmp: <CommonData cur_arrs={props.cur_arrs} cur_zones={props.cur_zones} cur_notes={props.cur_notes}/>, name: "Общие"},
-        {img: state, cmp: <StateData/>, name: "Реагирование"}
+        // {img: state, cmp: <StateData/>, name: "Реагирование"},
+        {img: logAnalize, cmp: <LogAnalize cur_frame_arr={props.cur_frame_arr} log_name={props.log_name}/>, name: "Анализ"}
     ]
 
     return <div className="log_data">

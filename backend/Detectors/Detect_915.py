@@ -1,7 +1,7 @@
 def analize(arr:list) -> int:
     for f in arr:
-        if f > 25:
-            1
+        if f > 40:
+            return 1
     return 0
 
 # 0 - undefined

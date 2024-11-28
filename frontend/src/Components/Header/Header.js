@@ -5,12 +5,14 @@ import log_reader from "./img/log_reader.png";
 import { useState, useEffect } from "react";
 
 const Header = (props) => {
+    //state
     const buttons = [
         {name: "Мониторинг", img: monitoring},
         {name: "Просмотр логов", img: log_reader}
     ]
     const [time, setTime] = useState("00:00:00")
 
+    //handlers
     const onMouseOver = (index) => {
         document.querySelector(`.hint._${index}`).classList.remove("unactive")
         document.querySelector(`.hint._${index}`).classList.add("active")
