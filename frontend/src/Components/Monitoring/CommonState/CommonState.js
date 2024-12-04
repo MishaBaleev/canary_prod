@@ -50,7 +50,7 @@ const CommonState = (props) => {
             setDecision(new_decision)
             return
         }
-        setDecision("Аномалии не обнаружены")
+        setDecision("Самособранный БПЛА")
     }, [props.frame])
 
     return <div className="common_state plate">

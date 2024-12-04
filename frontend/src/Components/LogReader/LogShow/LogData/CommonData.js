@@ -16,7 +16,7 @@ const CommonData = (props) => {
     }
 
     const states_2400 = ["Нет аномалий", "Ручное управление БПЛА", "Управление БПЛА по Wi-Fi", "Wi-Fi-speedtest download", "Wi-Fi-speedtest upload"]
-    const states_915 = ["Нет аномалий", "Аномалия телеметрии"]
+    const states_915 = ["Аномалия", "Аномалия"]
     const states_5800 = ["Нет аномалий", "Аномалия"]
     const states = {
         "zone_2400": states_2400,

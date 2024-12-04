@@ -82,7 +82,7 @@ export class MapManager{
         this.marker = new mapboxgl.Marker({
             "color": "#02D402"
         }).setLngLat([Number(params.lon), Number(params.lat)]).addTo(this.map)
-        this.map.addSource("sector_source", this.createGeoJSONCircle([Number(params.lon), Number(params.lat)], 1, 120, -params.azimuth+90))
+        this.map.addSource("sector_source", this.createGeoJSONCircle([Number(params.lon), Number(params.lat)], 1, 60, -params.azimuth+90))
         this.map.addLayer({
             "id": "sector_layer",
             "type": "fill",
@@ -99,7 +99,7 @@ export class MapManager{
     rotateDevice(angle){
         this.azimuth = angle
         if (this.marker){
-            let geojson = this.createGeoJSONCircle([this.marker.getLngLat().lng, this.marker.getLngLat().lat], 1, 120, Number(-angle)+90, true)
+            let geojson = this.createGeoJSONCircle([this.marker.getLngLat().lng, this.marker.getLngLat().lat], 1, 60, Number(-angle)+90, true)
             this.map.getSource("sector_source").setData(geojson)
         }
     }
