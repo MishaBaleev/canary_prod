@@ -19,7 +19,7 @@ const CommonState = (props) => {
         const zone_2400 = props.frame.zone_state.zone_2400
         const zone_915 = props.frame.zone_state.zone_915
         const zone_5800 = props.frame.zone_state.zone_5800
-        let new_decision = ""
+        let new_decision = "Аномалй не обнаружено"
         if (zone_915 === 1 && (zone_2400 === 1 || zone_2400 === 2)){
             new_decision = "FPV БПЛА"
             setDecision(new_decision)
@@ -50,7 +50,7 @@ const CommonState = (props) => {
             setDecision(new_decision)
             return
         }
-        setDecision("Самособранный БПЛА")
+        setDecision(new_decision)
     }, [props.frame])
 
     return <div className="common_state plate">

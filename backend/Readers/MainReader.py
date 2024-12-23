@@ -51,7 +51,7 @@ class MainReader():
                     res_arr[base.index(value[0])] = int(value[1])
                 return res_arr
 
-    def parseDataCommonX3(self, data:str) -> None:
+    def parseDataCommonX2(self, data:str) -> None:
         try: #all
             json_data = json.loads(data)
             try: #2400
@@ -77,25 +77,47 @@ class MainReader():
                         res_arr[target_index] = int(value) 
                 return {"type": 2400, "res": res_arr}
             except:
-                print("error 2400")
+                # print("error 2400")
                 try: #915
                     res_arr = [0 for _ in range(100)] 
                     for key in json_data.keys():
                         res_arr[int(key)-820] = int(json_data[key][0])
                     return {"type": 915, "res": res_arr}
                 except:
-                    print("error 915")
+                    # print("error 915")
                     return None 
         except: 
-            print("error all")
             return None
 
 
     def getData(self):
         raw_data = self.session.readline()
-        # print(raw_data)
-        try: #common X2
-            result = self.parseDataCommonX3(raw_data.decode().replace("'", '"'))
+        if ("type" in raw_data[:6].decode()):
+            print(1)
+            try:
+                line_data = json.loads(raw_data.decode().replace("'", '"'))
+                if (line_data["type"] == "1"):
+                    # print(line_data, "\n")
+                    return {
+                        "type": "type_915",
+                        "arr": self.parseData(line_data)
+                    } 
+                elif (line_data["type"] == "2"):
+                    # print(line_data, "\n")
+                    return {
+                        "type": "type_2400",
+                        "arr": self.parseData(line_data)
+                    } 
+                elif (line_data["type"] == "3"):
+                    # print(line_data, "\n")
+                    return {
+                        "type": "type_5800",
+                        "arr": self.parseData(line_data)
+                    }
+            except: 
+                return None
+        else:
+            result = self.parseDataCommonX2(raw_data.decode().replace("'", '"'))
             if result == None: return None 
             else:
                 if result["type"] == 2400:
@@ -108,23 +130,3 @@ class MainReader():
                         "type": "type_915",
                         "arr": result["res"]
                     }
-        except: #multi X3
-            line_data = json.loads(raw_data.decode().replace("'", '"'))
-            if (line_data["type"] == "1"):
-                # print(line_data, "\n")
-                return {
-                    "type": "type_915",
-                    "arr": self.parseData(line_data)
-                } 
-            elif (line_data["type"] == "2"):
-                # print(line_data, "\n")
-                return {
-                    "type": "type_2400",
-                    "arr": self.parseData(line_data)
-                } 
-            elif (line_data["type"] == "3"):
-                print(line_data, "\n")
-                return {
-                    "type": "type_5800",
-                    "arr": self.parseData(line_data)
-                } 

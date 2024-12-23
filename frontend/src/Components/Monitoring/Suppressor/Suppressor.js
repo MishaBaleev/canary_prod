@@ -3,10 +3,26 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import update from "../Controls/img/update.png";
 import { connect } from "react-redux";
-import { updateModal } from "../../../AppSlice";
+import { changeAutoSuppress, changeSupressConnected, updateModal } from "../../../AppSlice";
 
 const Suppressor = (props) => {
+    //state
     const [ints, setInts] = useState([])
+    const [current_int, setCurInt] = useState(0)
+    const [int_active, setIntActive] = useState("unactive")
+    const [suppressor_settings, setSupSettings] = useState({
+        Time: 1000,
+        Range: "24"
+    })
+    const presets = [
+        {description: "Глушение GPS", params: {time: 1000, range: "24"}},
+        {description: "Глушение на частоте 2,4 ГГц на обнаруженных каналах", params: {time: 2000, range: "24"}},
+        {description: "Глушение на диапазоне частот 5,8 ГГц на обнаруженных каналах", params: {time: 3000, range: "58"}},
+        {description: "Глушение диапазоне частот 915 МГц на обнаруженных каналах", params: {time: 4000, range: "915"}},
+    ]
+    const [cur_preset_id, setCurPreset] = useState(0)
+
+    //handlers
     const getInts = () => {
         let ints = ["Неопределен"]
         axios.get("http://127.0.0.1:8001/getInts").then(response => {
@@ -16,16 +32,13 @@ const Suppressor = (props) => {
             setInts(ints)
         })
     }
-    const [current_int, setCurInt] = useState(0)
-
     useEffect(() => {
         getInts()
     }, [])
-
-    const [int_active, setIntActive] = useState("unactive")
     const chnageIntActive = () => {
         if (int_active === "active"){
             setIntActive("unactive")
+            props.changeSuppressConnected(false)
         }else{
             if (current_int === 0){
                 props.updateModal({title: "Ошибка", message: "Необходимо выбрать интерфейс"})
@@ -37,27 +50,15 @@ const Suppressor = (props) => {
                 }
                 props.sendCommand({command: "start", start_config: start_config}, "suppressor")
                 setIntActive("active")
+                props.changeSuppressConnected(true)
             }
         }
     }
-
-    const [suppressor_settings, setSupSettings] = useState({
-        Time: 1000,
-        Range: "24"
-    })
     const changeSupSettings = (key, value) => {
         let cur_settings = {...suppressor_settings}
         cur_settings[key] = value 
         setSupSettings(cur_settings)
     }
-
-    const presets = [
-        {description: "Глушение GPS", params: {time: 1000, range: "24"}},
-        {description: "Глушение на частоте 2,4 ГГц на обнаруженных каналах", params: {time: 2000, range: "24"}},
-        {description: "Глушение на диапазоне частот 5,8 ГГц на обнаруженных каналах", params: {time: 3000, range: "58"}},
-        {description: "Глушение диапазоне частот 915 МГц на обнаруженных каналах", params: {time: 4000, range: "915"}},
-    ]
-    const [cur_preset_id, setCurPreset] = useState(0)
     const changePreset = (e) => {
         let cur_preset = presets[parseInt(e.target.value)]
         let cur_settings = {...suppressor_settings}
@@ -66,7 +67,6 @@ const Suppressor = (props) => {
         setSupSettings(cur_settings)
         setCurPreset(parseInt(e.target.value))
     }
-
     const hintIn = () => {
         let hint = document.querySelector(".suppressor_hint")
         hint.classList.remove("unactive")
@@ -77,7 +77,6 @@ const Suppressor = (props) => {
         hint.classList.remove("active")
         hint.classList.add("unactive")
     }
-
     const suppress = () => {
         if (int_active === "active"){
             let data = {
@@ -87,6 +86,13 @@ const Suppressor = (props) => {
             props.sendCommand({command: "suppress", data: data}, "suppressor")
         }else{
             props.updateModal({title: "Ошибка", message: "Необходимо подключить устройство"})
+        }
+    }
+    const changeAutoSuppress = () => {
+        if (props.app.auto_suppress === true){
+            props.changeAutoSuppress(false)
+        }else{
+            props.changeAutoSuppress(true)
         }
     }
 
@@ -150,7 +156,8 @@ const Suppressor = (props) => {
             <div className="item space-between">
                 <p className="item_title small">Автореагирование</p>
                 <input type="checkbox"
-
+                    checked={props.app.auto_suppress}
+                    onChange={changeAutoSuppress}
                 />
             </div>
             <button className="set" onClick={suppress}>Отправить</button>
@@ -159,6 +166,8 @@ const Suppressor = (props) => {
 }
 const mapStateToProps = (state) => {return state}
 const mapDispatchToProps = (dispatch) => {return {
-    "updateModal": (data) => {dispatch(updateModal(data))}
+    "updateModal": (data) => {dispatch(updateModal(data))},
+    "changeAutoSuppress": (data) => {dispatch(changeAutoSuppress(data))},
+    "changeSuppressConnected": (data) => {dispatch(changeSupressConnected(data))}
 }}
 export default connect(mapStateToProps, mapDispatchToProps)(Suppressor)

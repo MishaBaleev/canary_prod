@@ -9,7 +9,6 @@ import apsw
 import requests
 import pandas as pd
 import os
-import socket
 
 def index(request):
     return render(request, "index.html")
