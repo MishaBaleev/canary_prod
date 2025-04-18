@@ -151,7 +151,7 @@ const Monitoring = (props) => {
     return <div className="monitoring">
         <CommonData frame={frame}/>
         <CommonState frame={frame}/>
-        <Suppressor sendCommand={sendCommand}/>
+        {/* <Suppressor sendCommand={sendCommand}/> */}
         <Controls sendCommand={sendCommand}/>
         <MapInput changePosition={changePosition} position={position} map_manager={map_manager}/>
         <div className="map plate_big">

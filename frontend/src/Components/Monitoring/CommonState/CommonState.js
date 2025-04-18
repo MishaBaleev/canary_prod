@@ -19,7 +19,7 @@ const CommonState = (props) => {
         const zone_2400 = props.frame.zone_state.zone_2400
         const zone_915 = props.frame.zone_state.zone_915
         const zone_5800 = props.frame.zone_state.zone_5800
-        let new_decision = "Аномалй не обнаружено"
+        let new_decision = "Аномалий не обнаружено"
         if (zone_915 === 1 && (zone_2400 === 1 || zone_2400 === 2)){
             new_decision = "FPV БПЛА"
             setDecision(new_decision)
